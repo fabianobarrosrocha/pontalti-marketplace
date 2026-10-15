@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pontalti · conversa de teste</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          15px/1.55 system-ui,
+          sans-serif;
+        background: #f3f5f3;
+        color: #173e35;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button,
+      a {
+        touch-action: manipulation;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: wait;
+        opacity: 0.55;
+      }
+      a {
+        color: #096a60;
+        overflow-wrap: anywhere;
+      }
+      main {
+        max-width: 1150px;
+        margin: 35px auto;
+        padding: 0 24px;
+        display: grid;
+        grid-template-columns: 330px 1fr;
+        gap: 34px;
+      }
+      h1 {
+        font-size: 30px;
+        line-height: 1.15;
+        margin: 18px 0;
+      }
+      h2 {
+        font-size: 16px;
+        margin: 0 0 10px;
+      }
+      p {
+        margin: 12px 0;
+      }
+      .eyebrow {
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #60796d;
+      }
+      .intro {
+        color: #66776d;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        background: #e0ebe5;
+        color: #31624e;
+        font-size: 12px;
+        border-radius: 20px;
+      }
+      .panel {
+        background: white;
+        border: 1px solid #dce4de;
+        border-radius: 15px;
+        padding: 19px;
+        margin-top: 20px;
+      }
+      .muted {
+        font-size: 12px;
+        color: #76827a;
+      }
+      .stat {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px solid #eef1ee;
+      }
+      .stat:last-child {
+        border: 0;
+      }
+      .steps {
+        padding-left: 20px;
+        color: #627169;
+        font-size: 14px;
+      }
+      .steps li {
+        padding: 4px;
+      }
+      .outline {
+        background: white;
+        border: 1px solid #ccdad1;
+        border-radius: 8px;
+        color: #28614b;
+        padding: 9px 13px;
+      }
+      .pay {
+        width: 100%;
+        margin-top: 12px;
+        background: #e3f0e9;
+        border: 1px solid #b4d2bf;
+        border-radius: 8px;
+        padding: 10px;
+        color: #28614b;
+      }
+      .chat {
+        height: min(850px, calc(100dvh - 70px));
+        min-height: 600px;
+        background: #e9e6dd;
+        border: 1px solid #d6ded5;
+        border-radius: 22px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 18px 55px #23473415;
+      }
+      .chat-header {
+        background: #fff;
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid #e4e8e1;
+      }
+      .avatar {
+        height: 43px;
+        width: 43px;
+        border-radius: 50%;
+        background: #245b45;
+        color: white;
+        display: grid;
+        place-items: center;
+        font:
+          700 22px Georgia,
+          serif;
+      }
+      .title {
+        font-weight: 700;
+      }
+      .sub {
+        font-size: 12px;
+        color: #657d6b;
+      }
+      .messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background-image: radial-gradient(#bcb9ac30 0.8px, transparent 0.8px);
+        background-size: 14px 14px;
+      }
+      .notice {
+        text-align: center;
+        margin: 0 auto 18px;
+        max-width: 340px;
+        font-size: 11px;
+        color: #6a746b;
+        background: #ffffffb8;
+        border-radius: 8px;
+        padding: 8px;
+      }
+      .bubble {
+        max-width: 91%;
+        width: fit-content;
+        padding: 11px 14px;
+        margin: 7px 0;
+        border-radius: 3px 13px 13px 13px;
+        background: white;
+        box-shadow: 0 1px 2px #263e3015;
+        overflow-wrap: anywhere;
+      }
+      .bubble.user {
+        margin-left: auto;
+        background: #d5ebcf;
+        border-radius: 13px 3px 13px 13px;
+      }
+      .text {
+        white-space: pre-wrap;
+        font-size: 14px;
+        color: #263c30;
+      }
+      .time {
+        text-align: right;
+        font-size: 10px;
+        color: #8a958c;
+        margin-top: 5px;
+      }
+      .options {
+        display: grid;
+        gap: 0;
+        margin: 10px -14px -11px;
+        border-top: 1px solid #e5ebe5;
+      }
+      .option {
+        border: 0;
+        border-bottom: 1px solid #e5ebe5;
+        background: white;
+        color: #207957;
+        padding: 11px 15px;
+        text-align: center;
+        font-size: 14px;
+      }
+      .option:last-child {
+        border: 0;
+        border-radius: 0 0 13px 13px;
+      }
+      .option:hover {
+        background: #f0f7f1;
+      }
+      .picture {
+        display: block;
+        width: 100%;
+        max-height: 250px;
+        object-fit: contain;
+        border-radius: 7px;
+      }
+      .composer {
+        padding: 13px;
+        display: flex;
+        gap: 9px;
+        background: #f7f8f5;
+        align-items: center;
+      }
+      .composer input {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid #e0e7de;
+        border-radius: 22px;
+        padding: 12px 16px;
+        outline: none;
+      }
+      .composer input:focus {
+        border-color: #80b397;
+      }
+      .send {
+        border: 0;
+        border-radius: 50%;
+        height: 43px;
+        width: 43px;
+        color: white;
+        background: #337255;
+        font-size: 21px;
+      }
+      .error {
+        color: #943c36;
+        padding: 0 15px 8px;
+        background: #f7f8f5;
+        font-size: 12px;
+        display: none;
+      }
+      .code-panel {
+        display: none;
+        border-color: #9fc4ac;
+      }
+      .code {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        margin: 10px 0;
+        color: #245b45;
+      }
+      .order {
+        font-size: 13px;
+        padding: 12px 0;
+        border-top: 1px solid #e8ede7;
+      }
+      .status {
+        font-weight: 700;
+      }
+      .empty {
+        color: #89968c;
+        font-size: 13px;
+      }
+      .busy {
+        font-size: 12px;
+        color: #657d6b;
+        min-height: 20px;
+      }
+      dialog {
+        max-width: 440px;
+        border: 1px solid #ccdbd0;
+        border-radius: 18px;
+        padding: 25px;
+        color: #173e35;
+      }
+      dialog::backdrop {
+        background: #183c3270;
+      }
+      .primary {
+        background: #337255;
+        border: 0;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+      }
+      @media (max-width: 800px) {
+        main {
+          margin: 15px auto;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          padding: 0 12px;
+        }
+        .sidebar {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .heading {
+          grid-column: 1/-1;
+        }
+        .heading h1 {
+          font-size: 24px;
+          margin: 9px 0;
+        }
+        .intro {
+          margin: 8px 0;
+        }
+        .panel {
+          margin: 0;
+          padding: 14px;
+        }
+        .guide {
+          display: none;
+        }
+        .chat {
+          height: 72dvh;
+          min-height: 490px;
+          order: -1;
+        }
+        .sidebar .heading {
+          order: -1;
+        }
+        .messages {
+          padding: 14px;
+        }
+        .bubble {
+          max-width: 95%;
+        }
+      }
+      @media (max-width: 440px) {
+        .sidebar {
+          grid-template-columns: 1fr;
+        }
+        .chat {
+          height: 78dvh;
+        }
+        .chat-header {
+          padding: 12px 16px;
+        }
+        .panel {
+          padding: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <aside class="sidebar">
+        <div class="heading">
+          <div class="eyebrow">Pontalti · laboratório</div>
+          <h1>Experimente a<br />conversa de compra.</h1>
+          <p class="intro">
+            O bot executa o fluxo implementado. As mensagens aparecem aqui, com pedido e carrinho em um banco local.
+          </p>
+          <span class="badge">Cora staging · produto fictício</span>
+        </div>
+        <div class="panel guide">
+          <h2>Faça uma compra de teste</h2>
+          <ol class="steps">
+            <li>Abra o catálogo e escolha o produto.</li>
+            <li>Informe a quantidade.</li>
+            <li>Abra o link e vincule a conta de teste.</li>
+            <li>Envie o código na conversa.</li>
+            <li>Confirme carrinho, endereço e pedido.</li>
+            <li>Simule o pagamento em staging.</li>
+          </ol>
+          <p class="muted">
+            Preço de homologação: R$ 5,00 por unidade de teste. Nenhuma mensagem é enviada ao WhatsApp ou Telegram.
+          </p>
+        </div>
+        <div class="panel">
+          <h2>Conta e carrinho</h2>
+          <div class="stat"><span>Conta</span><strong id="account">Não vinculada</strong></div>
+          <div class="stat"><span>Itens no banco</span><strong id="quantity">0</strong></div>
+          <div class="stat"><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div>
+          <p class="muted">
+            Antes do vínculo, sua seleção fica na conversa. Depois, ela pode ser adicionada ao carrinho da conta.
+          </p>
+        </div>
+        <div class="panel code-panel" id="code-panel">
+          <h2>Confirme na conversa</h2>
+          <p class="muted">Esta conta representa o comprador fictício do banco local.</p>
+          <div id="code" class="code"></div>
+          <button class="outline" id="confirm-code">Enviar código de vínculo</button>
+        </div>
+        <div class="panel">
+          <h2>Pedidos de teste</h2>
+          <div id="orders" class="empty">Seu pedido aparecerá aqui.</div>
+        </div>
+        <div>
+          <button id="reset" class="outline">Reiniciar conversa de teste</button>
+          <p class="muted">
+            Reinicia somente os dados locais. As referências de staging já emitidas permanecem no banco Cora.
+          </p>
+        </div>
+      </aside>
+      <section class="chat" aria-label="Conversa com o bot Pontalti">
+        <header class="chat-header">
+          <div class="avatar">P</div>
+          <div>
+            <div class="title">Pontalti</div>
+            <div class="sub">Conversa de teste · bot da loja</div>
+          </div>
+        </header>
+        <div id="messages" class="messages" role="log" aria-live="polite"></div>
+        <form id="composer" class="composer">
+          <input
+            id="input"
+            autocomplete="off"
+            maxlength="2000"
+            aria-label="Mensagem"
+            placeholder="Escreva sua mensagem…"
+          /><button id="send" class="send" aria-label="Enviar">➤</button>
+        </form>
+        <div id="error" class="error" role="alert"></div>
+        <div id="busy" class="busy" style="padding: 0 15px; background: #f7f8f5"></div>
+      </section>
+    </main>
+    <dialog id="link-dialog">
+      <h2>Vincular conta de teste</h2>
+      <p>
+        O login da loja é representado aqui por uma conta fictícia. O código e a confirmação no chat usam o mesmo
+        serviço de vínculo do bot.
+      </p>
+      <p class="muted">Nenhum dado pessoal precisa ser informado nesta tela.</p>
+      <button id="claim-link" class="primary">Continuar com a conta de teste</button>
+      <button id="close-dialog" class="outline">Voltar</button>
+    </dialog>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const money = (cents) =>
+        new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL"
+        }).format(cents / 100);
+      let busy = false,
+        linkToken = "",
+        linkCode = "",
+        latestState = null;
+      const statusLabels = {
+        awaiting_payment: "Aguardando pagamento",
+        paid: "Pagamento confirmado",
+        expired: "Pagamento expirado",
+        cancelled: "Cancelado"
+      };
+      function setBusy(value, message = "") {
+        busy = value;
+        document.querySelectorAll("button").forEach((button) => (button.disabled = value));
+        $("busy").textContent = value ? message : "";
+      }
+      async function api(path, input) {
+        const response = await fetch(
+          path,
+          input === undefined
+            ? { cache: "no-store" }
+            : {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(input)
+              }
+        );
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Não foi possível concluir o teste.");
+        return result;
+      }
+      async function action(path, input, message = "O bot está respondendo…") {
+        if (busy) return;
+        setBusy(true, message);
+        $("error").style.display = "none";
+        try {
+          const result = await api(path, input);
+          if (result.messages) render(result);
+          return result;
+        } catch (error) {
+          $("error").textContent = error.message;
+          $("error").style.display = "block";
+        } finally {
+          setBusy(false);
+          $("input").focus();
+        }
+      }
+      function linkedText(element, text) {
+        const pattern = /https?:\/\/[^\s]+/g;
+        let start = 0;
+        for (const match of text.matchAll(pattern)) {
+          element.append(document.createTextNode(text.slice(start, match.index)));
+          const href = match[0];
+          const anchor = document.createElement("a");
+          anchor.textContent = href;
+          anchor.href = href;
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+          const link = href.match(/\/conta\/whatsapp\/vincular\/([a-f0-9]{64})/);
+          if (link && new URL(href).origin === location.origin) {
+            anchor.textContent = "Vincular minha conta →";
+            anchor.removeAttribute("target");
+            anchor.onclick = (event) => {
+              event.preventDefault();
+              linkToken = link[1];
+              $("link-dialog").showModal();
+            };
+          }
+          element.append(anchor);
+          start = match.index + href.length;
+        }
+        element.append(document.createTextNode(text.slice(start)));
+      }
+      function render(state) {
+        latestState = state;
+        const container = $("messages");
+        container.replaceChildren();
+        const notice = document.createElement("div");
+        notice.className = "notice";
+        notice.textContent = "Ambiente de teste. Cobranças emitidas somente no Cora staging.";
+        container.append(notice);
+        const labels = new Map();
+        for (const item of state.messages) {
+          const options = [...(item.content.options || []), ...(item.content.cards || []).flatMap(card => card.options)];
+          for (const option of options) labels.set(option.id, option.label);
+        }
+        for (const item of state.messages) {
+          const content = item.content;
+          const bubble = document.createElement("div");
+          bubble.className = "bubble" + (item.direction === "in" ? " user" : "");
+          bubble.dataset.messageId = item.id;
+          if (content.type === "image" || (content.type === "choices" && content.imageUrl)) {
+            const image = document.createElement("img");
+            image.src = content.url || content.imageUrl;
+            image.className = "picture";
+            image.alt = content.caption || "Catálogo de produtos";
+            bubble.append(image);
+          }
+          const text = document.createElement("div");
+          text.className = "text";
+          linkedText(text, labels.get(content.text) || content.text || content.caption || "");
+          bubble.append(text);
+          if (content.type === "document") {
+            const documentLink = document.createElement("a");
+            documentLink.href = content.url;
+            documentLink.textContent = "📄 " + content.filename;
+            documentLink.target = "_blank";
+            documentLink.rel = "noopener noreferrer";
+            bubble.append(documentLink);
+          }
+          if (content.type === "carousel") {
+            const row = document.createElement("div");
+            row.style.cssText = "display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 0";
+            for (const card of content.cards) {
+              const article = document.createElement("article");
+              article.style.cssText = "flex:0 0 250px;border:1px solid #e4ebe5;border-radius:10px;overflow:hidden;scroll-snap-align:start";
+              if (card.imageUrl) {
+                const image = document.createElement("img");
+                image.src = card.imageUrl;
+                image.alt = card.title;
+                image.style.cssText = "width:100%;height:170px;object-fit:cover";
+                article.append(image);
+              }
+              const body = document.createElement("div");
+              body.className = "text";
+              body.style.padding = "12px";
+              body.textContent = card.text;
+              article.append(body);
+              const options = document.createElement("div");
+              options.className = "options";
+              for (const option of card.options) {
+                const button = document.createElement("button");
+                button.className = "option";
+                button.textContent = option.label;
+                button.dataset.action = option.id;
+                button.onclick = () => action("/api/send", { text: option.id });
+                options.append(button);
+              }
+              article.append(options);
+              row.append(article);
+            }
+            bubble.append(row);
+          }
+          const time = document.createElement("div");
+          time.className = "time";
+          time.textContent = new Date(item.created_at).toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+          bubble.append(time);
+          if (content.type === "product" && content.imageUrl) {
+            const image = document.createElement("img");
+            image.src = content.imageUrl;
+            image.alt = content.title;
+            image.style.cssText = "display:block;width:100%;max-height:320px;object-fit:contain";
+            bubble.prepend(image);
+          }
+          if (content.type === "choices" || content.type === "product") {
+            const options = document.createElement("div");
+            options.className = "options";
+            content.options.forEach((option) => {
+              const button = document.createElement("button");
+              button.className = "option";
+              button.textContent = option.label;
+              button.dataset.action = option.id;
+              button.onclick = () => action("/api/send", { text: option.id });
+              options.append(button);
+            });
+            bubble.append(options);
+          }
+          container.append(bubble);
+        }
+        container.scrollTop = container.scrollHeight;
+        $("account").textContent = state.linked ? "Conta de teste vinculada" : "Não vinculada";
+        $("quantity").textContent = state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        $("subtotal").textContent = money(state.cart.subtotalCents);
+        if (state.linked) $("code-panel").style.display = "none";
+        const orders = $("orders");
+        orders.replaceChildren();
+        if (!state.orders.length) orders.textContent = "Seu pedido aparecerá aqui.";
+        for (const order of state.orders) {
+          const row = document.createElement("div");
+          row.className = "order";
+          const title = document.createElement("div");
+          title.textContent =
+            "#" + order.id.slice(0, 8).toUpperCase() + " · " + money(Math.round(Number(order.total) * 100));
+          row.append(title);
+          const status = document.createElement("div");
+          status.className = "status";
+          status.textContent = statusLabels[order.status] || order.status;
+          row.append(status);
+          if (order.status === "awaiting_payment" && order.order_payments.length) {
+            const pay = document.createElement("button");
+            pay.className = "pay";
+            pay.textContent = "Simular pagamento no Cora staging";
+            pay.dataset.orderId = order.id;
+            pay.onclick = () =>
+              action("/api/pay", { orderId: order.id }, "Simulando e confirmando o pagamento no Cora staging…");
+            row.append(pay);
+          }
+          orders.append(row);
+        }
+      }
+      $("composer").onsubmit = async (event) => {
+        event.preventDefault();
+        const text = $("input").value.trim();
+        if (!text || busy) return;
+        $("input").value = "";
+        await action("/api/send", { text });
+      };
+      $("reset").onclick = async () => {
+        linkCode = "";
+        $("code-panel").style.display = "none";
+        await action("/api/reset", {}, "Reiniciando o banco de teste…");
+      };
+      $("close-dialog").onclick = () => $("link-dialog").close();
+      $("claim-link").onclick = async () => {
+        const result = await action("/api/link", { token: linkToken }, "Vinculando a conta de teste…");
+        if (result) {
+          linkCode = result.code;
+          $("code").textContent = linkCode;
+          $("code-panel").style.display = "block";
+          $("link-dialog").close();
+        }
+      };
+      $("confirm-code").onclick = () => action("/api/send", { text: "vincular " + linkCode });
+      (async () => {
+        try {
+          render(await api("/api/state"));
+          const token = location.pathname.match(/\/vincular\/([a-f0-9]{64})/);
+          if (token) {
+            linkToken = token[1];
+            $("link-dialog").showModal();
+          }
+        } catch (error) {
+          $("error").textContent = error.message;
+          $("error").style.display = "block";
+        }
+      })();
+    </script>
+  </body>
+</html>

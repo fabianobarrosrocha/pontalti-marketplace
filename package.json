@@ -3,23 +3,48 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3002",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start -p 3002",
+    "lint": "eslint",
+    "whatsapp:worker": "node --conditions=react-server --import tsx scripts/whatsapp-worker.ts",
+    "whatsapp:test-console": "node --conditions=react-server --import tsx scripts/whatsapp-test-console.ts",
+    "whatsapp:test-live": "node --conditions=react-server --import tsx scripts/whatsapp-test-live.ts",
+    "test:whatsapp": "node --conditions=react-server --import tsx --test src/lib/whatsapp/*.test.ts",
+    "test:whatsapp:db": "tsx scripts/whatsapp-test-db.ts",
+    "test:whatsapp:integration": "node --conditions=react-server --import tsx --test tests/whatsapp.integration.test.ts",
+    "test:balance:integration": "node --conditions=react-server --import tsx --test --test-concurrency=1 tests/balance-checkout.integration.test.ts",
+    "test:balance:core": "node --conditions=react-server --import tsx --test --test-concurrency=1 tests/balance-core.integration.test.ts",
+    "test:cora:stage": "node --conditions=react-server --import tsx scripts/test-cora-stage.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
+    "@next/env": "^16.2.6",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.106.1",
+    "clsx": "^2.1.1",
+    "cpf-cnpj-validator": "^2.1.2",
+    "lucide-react": "^1.16.0",
     "next": "16.2.6",
+    "qrcode": "^1.5.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.76.1",
+    "server-only": "^0.0.1",
+    "sharp": "0.34.5",
+    "tsx": "^4.23.15",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "pg": "^8.23.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
